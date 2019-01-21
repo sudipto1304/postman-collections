@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "OauthToken",
+			"name": "Crud-App-OauthToken",
 			"event": [
 				{
 					"listen": "test",
@@ -14,7 +14,8 @@
 						"id": "cb4c5ed9-950f-4a0c-8e18-33418c54efd1",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"OauthToken\", data.access_token);"
+							"postman.setEnvironmentVariable(\"OauthToken\", \"Bearer \"+data.access_token);",
+							"postman.setEnvironmentVariable(\"csid\", data.CSID);"
 						],
 						"type": "text/javascript"
 					}
@@ -73,6 +74,243 @@
 					"path": [
 						"oauth",
 						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crud-App-GenerateOTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "csid",
+						"value": "{{csid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"phoneNumber\" : \"0000000003\",\n\t\"flowId\" : \"REGISTRATION\",\n\t\"countryCode\" : \"+1\",\n\t\"appData\" : {\n\t\t\"os\" : \"iOS\",\n\t\t\"osVersion\" : \"10\",\n\t\t\"isp\" : \"ATT\",\n\t\t\"ip\" : \"102.25.24.22\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{URL}}{{CrudPort}}/app/otp/generate",
+					"host": [
+						"{{URL}}{{CrudPort}}"
+					],
+					"path": [
+						"app",
+						"otp",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crud-ManageUser-Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "csid",
+						"value": "{{csid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"PC_2\",\n\t\"emailId\": \"PC_2@gmail.com\",\n\t\"password\": \"pc2pass\",\n\t\"firstName\": \"PC_2_FIRST\",\n\t\"lastName\": \"PC_2_LAST\",\n\t\"addressLine1\": \"address1\",\n\t\"addressLine2\": \"\",\n\t\"city\": \"Irving\",\n\t\"state\": \"TX\",\n\t\"zipCode\": \"75039\",\n\t\"country\": \"USA\",\n\t\"address\": \"\",\n\t\"contactNumber\": \"0000000002\",\n\t\"countryCode\": 840,\n\t\"isTncAccepted\": false,\n\t\"appData\" : {\n\t\t\"os\" : \"iOS\",\n\t\t\"osVersion\" : \"10\",\n\t\t\"isp\" : \"ATT\",\n\t\t\"ip\" : \"102.25.24.22\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{URL}}{{CrudPort}}/manageuser/register",
+					"host": [
+						"{{URL}}{{CrudPort}}"
+					],
+					"path": [
+						"manageuser",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proxy-App-StatusCheck",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{OauthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}{{ProxyPort}}/api/ManageApp/app/statuscheck",
+					"host": [
+						"{{URL}}{{ProxyPort}}"
+					],
+					"path": [
+						"api",
+						"ManageApp",
+						"app",
+						"statuscheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proxy-App-GenerateOTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "csid",
+						"value": "{{csid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"phoneNumber\" : \"0000000003\",\n\t\"flowId\" : \"REGISTRATION\",\n\t\"countryCode\" : \"+1\",\n\t\"appData\" : {\n\t\t\"os\" : \"iOS\",\n\t\t\"osVersion\" : \"10\",\n\t\t\"isp\" : \"ATT\",\n\t\t\"ip\" : \"102.25.24.22\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{URL}}{{ProxyPort}}/api/ManageApp/app/otp/generate",
+					"host": [
+						"{{URL}}{{ProxyPort}}"
+					],
+					"path": [
+						"api",
+						"ManageApp",
+						"app",
+						"otp",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crud-GetErrorMessage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}{{CrudPort}}/app/message/MSG_00006",
+					"host": [
+						"{{URL}}{{CrudPort}}"
+					],
+					"path": [
+						"app",
+						"message",
+						"MSG_00006"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crud-GetAllErrorMessage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}{{CrudPort}}/app/message/getAll",
+					"host": [
+						"{{URL}}{{CrudPort}}"
+					],
+					"path": [
+						"app",
+						"message",
+						"getAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crud-RefreshCache",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}{{CrudPort}}/app/cache/refresh",
+					"host": [
+						"{{URL}}{{CrudPort}}"
+					],
+					"path": [
+						"app",
+						"cache",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proxy-App-ValidateOTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"phoneNumber\" : \"0000000003\",\n\t\"flowId\" : \"REGISTRATION\",\n\t\"countryCode\" : \"+1\",\n\t\"otp\" : \"94167\",\n\t\"appData\" : {\n\t\t\"os\" : \"iOS\",\n\t\t\"osVersion\" : \"10\",\n\t\t\"isp\" : \"ATT\",\n\t\t\"ip\" : \"102.25.24.22\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{URL}}{{ProxyPort}}/api/ManageApp/app/otp/validate",
+					"host": [
+						"{{URL}}{{ProxyPort}}"
+					],
+					"path": [
+						"api",
+						"ManageApp",
+						"app",
+						"otp",
+						"validate"
 					]
 				}
 			},
